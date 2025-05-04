@@ -3,9 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Wi-Fi Network Monitor</title>
+    <link rel="stylesheet" href="./files/css/style.css">
 </head>
 <body>
-    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <h2>Wi-Fi Monitor</h2>
+        </div>
+        <ul class="sidebar-nav">
+            <li><button id="scanBtn" class="sidebar-btn">Scan Networks</button></li>
+            <li><button id="refreshBtn" class="sidebar-btn">Refresh</button></li>
+            <li><button id="settingsBtn" class="sidebar-btn">Settings</button></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Navbar -->
+        <div class="navbar">
+            <h1>Wi-Fi Network Monitoring</h1>
+        </div>
+
+        <!-- Tools Section -->
+        <div class="tools-section">
+            <div class="tools-header">
+                <input type="text" id="searchInput" placeholder="Search Networks" onkeyup="searchNetworks()">
+                <div id="loading" class="loading">Scanning...</div>
+            </div>
+            <div id="networkListContainer">
+                <ul id="networkList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
