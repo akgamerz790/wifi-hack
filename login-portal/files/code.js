@@ -1,26 +1,21 @@
-// Function to send credentials to the server (Flask)
-function storeCredentials() {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-
-  const data = {
-      username: username,
-      password: password
-  };
-
-  fetch('/store_credentials', {
+document.getElementById('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+  
+    const username = e.target.username.value;
+    const password = e.target.password.value;
+  
+    fetch('/store_credentials', {
       method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data)
-  })
-  .then(response => response.json())
-  .then(data => {
-      alert('Credentials stored successfully!');
-      console.log(data);
-  })
-  .catch((error) => {
-      console.error('Error:', error);
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.message || 'Logged in');
+      e.target.reset();
+    })
+    .catch(err => {
+      console.error('Error:', err);
+    });
   });
-}
+  
